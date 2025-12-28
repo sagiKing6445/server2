@@ -1,0 +1,53 @@
+<div class="app-container">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h1>CRUD Management System</h1>
+    </div>
+    <ul class="nav-menu">
+      <li>
+        <button
+          class="nav-link"
+          [class.active]="currentComponent === 'home'"
+          (click)="navigateTo('home')">
+          Home
+        </button>
+      </li>
+      <li>
+        <button
+          class="nav-link"
+          [class.active]="currentComponent === 'users'"
+          (click)="navigateTo('users')">
+          משתמשים (Users)
+        </button>
+      </li>
+      <li>
+        <button
+          class="nav-link"
+          [class.active]="currentComponent === 'roles'"
+          (click)="navigateTo('roles')">
+          הרשאות (Roles)
+        </button>
+      </li>
+      <li>
+        <button
+          class="nav-link"
+          [class.active]="currentComponent === 'user-roles'"
+          (click)="navigateTo('user-roles')">
+          הרשאות משתמשים (User Roles)
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="main-content">
+    <div *ngIf="currentComponent === 'home'" class="home-view">
+      <h2>ברוכים הבאים</h2>
+      <p>בחרו מהתפריט לעל בשמאל כדי להתחיל</p>
+    </div>
+
+    <app-users *ngIf="currentComponent === 'users'"></app-users>
+    <app-roles *ngIf="currentComponent === 'roles'"></app-roles>
+    <app-user-roles *ngIf="currentComponent === 'user-roles'"></app-user-roles>
+  </main>
+</div>
+

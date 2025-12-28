@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="header">
+    <h2>הרשאות משתמשים (User Roles)</h2>
+    <button class="btn btn-primary" (click)="openForm()" *ngIf="!showForm">
+      הוסף הרשאה למשתמש
+    </button>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="form-container" *ngIf="showForm">
+    <h3>{{ editingUserRole ? 'עדכן הרשאת משתמש' : 'הוסף הרשאה למשתמש' }}</h3>
+    <form (ngSubmit)="saveUserRole()">
+      <div class="form-group">
+        <label>בחר משתמש:</label>
+        <select [(ngModel)]="newUserRole.user_id" name="user_id" required>
+          <option value="" disabled selected>בחר משתמש</option>
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.username }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>בחר הרשאה:</label>
+        <select [(ngModel)]="newUserRole.role_id" name="role_id" required>
+          <option value="" disabled selected>בחר הרשאה</option>
+          <option *ngFor="let role of roles" [value]="role.id">
+            {{ role.name }}
+          </option>
+        </select>
+      </div>
+      <div class="button-group">
+        <button type="submit" class="btn btn-success">שמור</button>
+        <button type="button" class="btn btn-secondary" (click)="closeForm()">בטל</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="content">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>שם משתמש</th>
+            <th>הרשאה</th>
+            <th>פעולות</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let userRole of userRoles" [class.selected]="selectedUserRole?.id === userRole.id">
+            <td>{{ userRole.id }}</td>
+            <td>{{ userRole.username }}</td>
+            <td>{{ userRole.role }}</td>
+            <td>
+              <button class="btn btn-sm btn-info" (click)="selectUserRole(userRole)">צפה</button>
+              <button class="btn btn-sm btn-warning" (click)="editUserRole(userRole)">ערוך</button>
+              <button class="btn btn-sm btn-danger" (click)="deleteUserRole(userRole.id)">מחק</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="details-container" *ngIf="selectedUserRole">
+      <h3>פרטי הרשאת משתמש</h3>
+      <p><strong>ID:</strong> {{ selectedUserRole.id }}</p>
+      <p><strong>שם משתמש:</strong> {{ selectedUserRole.username }}</p>
+      <p><strong>הרשאה:</strong> {{ selectedUserRole.role }}</p>
+    </div>
+  </div>
+</div>
+

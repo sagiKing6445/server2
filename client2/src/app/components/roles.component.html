@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="header">
+    <h2>הרשאות (Roles)</h2>
+    <button class="btn btn-primary" (click)="openForm()" *ngIf="!showForm">
+      הוסף הרשאה חדשה
+    </button>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="form-container" *ngIf="showForm">
+    <h3>{{ editingRole ? 'עדכן הרשאה' : 'הוסף הרשאה חדשה' }}</h3>
+    <form (ngSubmit)="saveRole()">
+      <div class="form-group">
+        <label>שם ההרשאה:</label>
+        <input
+          type="text"
+          [(ngModel)]="newRole.name"
+          name="name"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label>תיאור:</label>
+        <input
+          type="text"
+          [(ngModel)]="newRole.description"
+          name="description"
+        >
+      </div>
+      <div class="button-group">
+        <button type="submit" class="btn btn-success">שמור</button>
+        <button type="button" class="btn btn-secondary" (click)="closeForm()">בטל</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="content">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>שם ההרשאה</th>
+            <th>תיאור</th>
+            <th>פעולות</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let role of roles" [class.selected]="selectedRole?.id === role.id">
+            <td>{{ role.id }}</td>
+            <td>{{ role.name }}</td>
+            <td>{{ role.description || '-' }}</td>
+            <td>
+              <button class="btn btn-sm btn-info" (click)="selectRole(role)">צפה</button>
+              <button class="btn btn-sm btn-warning" (click)="editRole(role)">ערוך</button>
+              <button class="btn btn-sm btn-danger" (click)="deleteRole(role.id)">מחק</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="details-container" *ngIf="selectedRole">
+      <h3>פרטי הרשאה</h3>
+      <p><strong>ID:</strong> {{ selectedRole.id }}</p>
+      <p><strong>שם ההרשאה:</strong> {{ selectedRole.name }}</p>
+      <p><strong>תיאור:</strong> {{ selectedRole.description || '-' }}</p>
+    </div>
+  </div>
+</div>
+

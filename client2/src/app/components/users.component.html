@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="header">
+    <h2>ניהול משתמשים</h2>
+    <button class="btn btn-primary" (click)="openForm()" *ngIf="!showForm">
+      + הוסף משתמש חדש
+    </button>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="content">
+
+    <div class="form-container" *ngIf="showForm">
+      <h3>{{ editingUser ? 'עדכן פרטי משתמש' : 'רישום משתמש חדש' }}</h3>
+      <form (ngSubmit)="saveUser()">
+        <div class="form-group">
+          <label for="username">שם משתמש:</label>
+          <input
+            id="username"
+            type="text"
+            [(ngModel)]="newUser.username"
+            name="username"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">אימייל:</label>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="newUser.email"
+            name="email"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="button-group" style="margin-top: 15px;">
+          <button type="submit" class="btn btn-success">שמור</button>
+          <button type="button" class="btn btn-secondary" (click)="closeForm()">בטל</button>
+        </div>
+      </form>
+    </div>
+
+    <hr *ngIf="showForm">
+
+    <div class="table-container">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>שם משתמש</th>
+          <th>אימייל</th>
+          <th>פעולות</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users" [class.table-active]="selectedUser?.id === user.id">
+          <td>{{ user.id }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <div class="btn-group">
+              <button class="btn btn-sm btn-info" (click)="selectUser(user)">צפה</button>
+              <button class="btn btn-sm btn-warning" (click)="editUser(user)">ערוך</button>
+              <button class="btn btn-sm btn-danger" (click)="deleteUser(user.id)">מחק</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="details-card" *ngIf="selectedUser && !showForm" style="margin-top: 20px; padding: 15px; border: 1px solid #ddd;">
+      <h3>פרטי משתמש נבחר</h3>
+      <p><strong>מזהה מערכת:</strong> {{ selectedUser.id }}</p>
+      <p><strong>שם מלא:</strong> {{ selectedUser.username }}</p>
+      <p><strong>כתובת אימייל:</strong> {{ selectedUser.email }}</p>
+      <button class="btn btn-sm btn-outline-dark" (click)="selectedUser = null">סגור תצוגה</button>
+    </div>
+
+  </div>
+</div>
